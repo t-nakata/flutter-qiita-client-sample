@@ -2,15 +2,30 @@
 
 Flutter Qiita Client Sample
 
-## Getting Started
+主な使用ライブラリ
+- Riverpod
+- Freezed
+- StateNotifier
+- Retrofit
 
-This project is a starting point for a Flutter application.
+### 実行環境
+下記以外での環境では動作しない可能性があります。
 
-A few resources to get you started if this is your first Flutter project:
+- Android Studio4.1.2
+- macOS Catalina v10.15.7
+- Flutter v1.22.6
+- Dart v2.10.5
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### ソースの自動生成機能
+当プロジェクトではソースの自動生成を使用しているため、実行前に下記コマンドを実行する必要があります。
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```shell script
+$ flutter packages pub run build_runner build
+```
+
+2回目以降は、生成済みのコードとのコンフリクトを避けるために、下記のように引数を追加する必要があります。
+
+```shell script
+$ flutter packages pub run build_runner build --delete-conflicting-outputs
+```
+
