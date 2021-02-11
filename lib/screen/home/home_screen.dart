@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_qiita_client/model/qiita_item.dart';
+import 'package:flutter_qiita_client/screen/article/article_screen.dart';
 import 'package:flutter_qiita_client/screen/home/home_state_notifier.dart';
 import 'package:flutter_qiita_client/state/home_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -10,67 +10,19 @@ class HomeScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, ScopedReader watch) {
     final state = watch(homeStateNotifier.state);
-
-    return WillPopScope(
-      onWillPop: state.isReadyData ? (){
-        context.read(homeStateNotifier).onBackHome();
-        return Future.value(false);
-      } : null,
-      child: Scaffold(
-        appBar: AppBar(
-          title: state.isReadyData
-              ? Text(state.currentTag)
-              : Text('QiitaClientSample'),
-          centerTitle: true,
-        ),
-        body: Stack(children: [
-          Container(
-            child: Center(
-              child: state.isReadyData
-                  ? _createListView(
-                      context,
-                      state.qiitaItems,
-                    )
-                  : _createSearchButtons(
-                      context,
-                      state,
-                    ),
-            ),
-          ),
-          state.isLoading
-              ? Container(
-                  color: Color(0x88000000),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
-              : Container(),
-        ]),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('QiitaClientSample'),
+        centerTitle: true,
       ),
-    );
-  }
-
-  Widget _createListView(BuildContext context, List<QiitaItem> qiitaItems) {
-    return ListView.builder(
-      itemBuilder: (context, index) {
-        final item = qiitaItems[index];
-        return Container(
-          padding: EdgeInsets.only(top: 4, bottom: 4, left: 8, right: 8),
-          constraints: BoxConstraints(minHeight: 96, maxHeight: 96),
-          child: Card(
-            elevation: 8,
-            child: Container(
-              alignment: Alignment.centerLeft,
-              padding: EdgeInsets.all(16),
-              child: Text(
-                item.title,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-              ),
-            ),
+      body: Container(
+        child: Center(
+          child: _createSearchButtons(
+            context,
+            state,
           ),
-        );
-      },
-      itemCount: qiitaItems.length,
+        ),
+      ),
     );
   }
 
@@ -80,21 +32,27 @@ class HomeScreen extends ConsumerWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () =>
-                context.read(homeStateNotifier).fetchQiitaItems("flutter"),
+            onPressed: () => _onTapButton(context, "flutter"),
             child: Text("Flutter"),
           ),
           ElevatedButton(
-            onPressed: () =>
-                context.read(homeStateNotifier).fetchQiitaItems("android"),
+            onPressed: () => _onTapButton(context, "android"),
             child: Text("android"),
           ),
           ElevatedButton(
-            onPressed: () =>
-                context.read(homeStateNotifier).fetchQiitaItems("ios"),
+            onPressed: () => _onTapButton(context, "ios"),
             child: Text("ios"),
           ),
         ],
+      ),
+    );
+  }
+
+  _onTapButton(BuildContext context, String tag) async {
+    await context.read(homeStateNotifier).setTag(tag);
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => ArticleScreen(),
       ),
     );
   }
