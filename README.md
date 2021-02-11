@@ -7,6 +7,8 @@ Flutter Qiita Client Sample
 - Freezed
 - StateNotifier
 - Retrofit
+- CachedNetworkImage
+- FlutterInAppWebView
 
 ### 実行環境
 下記以外での環境では動作しない可能性があります。
