@@ -69,6 +69,7 @@ class ArticleScreen extends ConsumerWidget {
                 padding: EdgeInsets.all(16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.max,
                   children: [
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
@@ -79,9 +80,8 @@ class ArticleScreen extends ConsumerWidget {
                         imageUrl: item.user?.profileImageUrl ?? '',
                       ),
                     ),
-                    SizedBox(width: 16),
-                    Container(
-                      width: 240,
+                    SizedBox(width: 8),
+                    Expanded(
                       child: Text(
                         item.title ?? '',
                         style: TextStyle(
