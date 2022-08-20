@@ -14,7 +14,7 @@ Flutter Qiita Client Sample
 下記以外での環境では動作しない可能性があります。
 
 - macOS Catalina v12.4
-- Android Studio4.1.2
+- Android Studio 2021.1.1 Patch3
 - Flutter v3.0.5
 - Dart v2.17.6
 
