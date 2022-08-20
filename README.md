@@ -13,10 +13,12 @@ Flutter Qiita Client Sample
 ### 実行環境
 下記以外での環境では動作しない可能性があります。
 
+- macOS Catalina v12.4
 - Android Studio4.1.2
-- macOS Catalina v10.15.7
-- Flutter v1.22.6
-- Dart v2.10.5
+- Flutter v3.0.5
+- Dart v2.17.6
+
+- riverpod v1.0.3
 
 ### ソースの自動生成機能
 当プロジェクトではソースの自動生成を使用しているため、実行前に下記コマンドを実行する必要があります。

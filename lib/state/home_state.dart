@@ -5,6 +5,6 @@ part 'home_state.freezed.dart';
 @freezed
 abstract class HomeState with _$HomeState {
   const factory HomeState({
-    String currentTag,
+    @Default('') String currentTag,
   }) = _HomeState;
 }

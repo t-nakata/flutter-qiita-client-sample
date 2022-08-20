@@ -8,7 +8,7 @@ abstract class ArticleState with _$ArticleState {
   const factory ArticleState({
     @Default(false) bool isLoading,
     @Default(false) bool isReadyData,
-    List<QiitaItem> qiitaItems,
-    String currentTag,
+    @Default([]) List<QiitaItem> qiitaItems,
+    @Default('') String currentTag,
   }) = _ArticleState;
 }
