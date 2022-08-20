@@ -4,20 +4,24 @@ import 'package:flutter_qiita_client/model/qiita_item.dart';
 import 'package:flutter_qiita_client/screen/article/article_state_notifier.dart';
 import 'package:flutter_qiita_client/screen/detail/detail_screen.dart';
 import 'package:flutter_qiita_client/screen/home/home_screen.dart';
+import 'package:flutter_qiita_client/state/article_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArticleScreen extends ConsumerWidget {
-  final articleStateNotifier = StateNotifierProvider.autoDispose((ref) {
-    final currentTag = ref.read(homeStateNotifier.state).currentTag;
+  final articleStateNotifier =
+      StateNotifierProvider.autoDispose<ArticleStateNotifier, ArticleState>(
+          (ref) {
+    final currentTag = ref.read(homeStateNotifier).currentTag;
     return ArticleStateNotifier(currentTag);
   });
 
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(articleStateNotifier.state);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(articleStateNotifier);
+    final notifier = ref.watch(articleStateNotifier.notifier);
     if (!state.isLoading & !state.isReadyData) {
       Future.delayed(Duration.zero, () {
-        context.read(articleStateNotifier).fetchQiitaItems(state.currentTag);
+        notifier.fetchQiitaItems(state.currentTag);
       });
     }
 
@@ -72,14 +76,14 @@ class ArticleScreen extends ConsumerWidget {
                         width: 80,
                         height: 80,
                         fit: BoxFit.cover,
-                        imageUrl: item.user.profileImageUrl,
+                        imageUrl: item.user?.profileImageUrl ?? '',
                       ),
                     ),
                     SizedBox(width: 16),
                     Container(
                       width: 240,
                       child: Text(
-                        item.title,
+                        item.title ?? '',
                         style: TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
@@ -102,7 +106,7 @@ class ArticleScreen extends ConsumerWidget {
   _onTapItem(BuildContext context, QiitaItem item) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => DetailScreen(item.url),
+        builder: (context) => DetailScreen(item.url?? ''),
       ),
     );
   }

@@ -33,8 +33,8 @@
 lib/generated_plugin_registrant.dart
 # i18n
 lib/generated
-lib/**/*.freezed.dart
-lib/**/*.g.dart
+#lib/**/*.freezed.dart
+#lib/**/*.g.dart
 lib/l10n/messages_*.dart
 # Symbolication related
 app.*.symbols

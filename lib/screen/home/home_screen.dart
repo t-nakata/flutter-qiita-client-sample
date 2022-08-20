@@ -4,12 +4,13 @@ import 'package:flutter_qiita_client/screen/home/home_state_notifier.dart';
 import 'package:flutter_qiita_client/state/home_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final homeStateNotifier = StateNotifierProvider((ref) => HomeStateNotifier());
+final homeStateNotifier = StateNotifierProvider<HomeStateNotifier, HomeState>(
+    (ref) => HomeStateNotifier());
 
 class HomeScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context, ScopedReader watch) {
-    final state = watch(homeStateNotifier.state);
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(homeStateNotifier);
     return Scaffold(
       appBar: AppBar(
         title: Text('QiitaClientSample'),
@@ -19,6 +20,7 @@ class HomeScreen extends ConsumerWidget {
         child: Center(
           child: _createSearchButtons(
             context,
+            ref,
             state,
           ),
         ),
@@ -26,21 +28,25 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  Widget _createSearchButtons(BuildContext context, HomeState state) {
+  Widget _createSearchButtons(
+    BuildContext context,
+    WidgetRef ref,
+    HomeState state,
+  ) {
     return Container(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () => _onTapButton(context, "flutter"),
+            onPressed: () => _onTapButton(context, ref, "flutter"),
             child: Text("Flutter"),
           ),
           ElevatedButton(
-            onPressed: () => _onTapButton(context, "android"),
+            onPressed: () => _onTapButton(context, ref, "android"),
             child: Text("android"),
           ),
           ElevatedButton(
-            onPressed: () => _onTapButton(context, "ios"),
+            onPressed: () => _onTapButton(context, ref, "ios"),
             child: Text("ios"),
           ),
         ],
@@ -48,8 +54,12 @@ class HomeScreen extends ConsumerWidget {
     );
   }
 
-  _onTapButton(BuildContext context, String tag) async {
-    await context.read(homeStateNotifier).setTag(tag);
+  void _onTapButton(
+    BuildContext context,
+    WidgetRef ref,
+    String tag,
+  ) async {
+    await ref.read(homeStateNotifier.notifier).setTag(tag);
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => ArticleScreen(),

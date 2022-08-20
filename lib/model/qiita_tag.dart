@@ -7,8 +7,8 @@ part 'qiita_tag.g.dart';
 @freezed
 abstract class QiitaTag with _$QiitaTag {
   const factory QiitaTag({
-    String name,
-    List<String> versions,
+    @Default('') String name,
+    @Default([]) List<String> versions,
   }) = _QiitaTag;
 
   factory QiitaTag.fromJson(Map<String, dynamic> json) =>

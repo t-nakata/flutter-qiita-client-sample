@@ -3,11 +3,11 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class DetailScreen extends StatelessWidget {
   DetailScreen(String url) : super() {
-    this.url = url;
+    this.url = Uri.parse(url);
   }
 
-  InAppWebViewController webView;
-  String url = "";
+  InAppWebViewController? webView;
+  Uri? url;
 
   @override
   Widget build(BuildContext context) {
@@ -15,19 +15,19 @@ class DetailScreen extends StatelessWidget {
       child: Scaffold(
         body: Container(
           child: InAppWebView(
-            initialUrl: this.url,
-            initialHeaders: {},
+            initialUrlRequest: URLRequest(url: this.url),
+            // initialHeaders: {},
             initialOptions: InAppWebViewGroupOptions(
                 crossPlatform: InAppWebViewOptions(
-              debuggingEnabled: true,
+              // debuggingEnabled: true,
             )),
             onWebViewCreated: (InAppWebViewController controller) {
               webView = controller;
             },
-            onLoadStart: (InAppWebViewController controller, String url) {
+            onLoadStart: (InAppWebViewController controller, Uri? url) {
               this.url = url;
             },
-            onLoadStop: (InAppWebViewController controller, String url) async {
+            onLoadStop: (InAppWebViewController controller, Uri? url) async {
               this.url = url;
             },
           ),
